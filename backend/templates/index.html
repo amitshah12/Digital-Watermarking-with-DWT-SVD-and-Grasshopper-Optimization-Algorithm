@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Watermarking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .section {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="file"],
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn:disabled {
+            background-color: #ccc;
+        }
+        .result-container {
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        .result-image {
+            max-width: 100%;
+            margin: 10px 0;
+        }
+        .metrics {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            font-size: 0.9em;
+            text-align: left;
+        }
+        .metrics h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .metrics p {
+            margin: 5px 0;
+            color: #666;
+        }
+        .alpha-value {
+            display: inline-block;
+            padding: 5px 10px;
+            background: #e3f2fd;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        .error {
+            color: #f44336;
+            background: #ffebee;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .image-preview {
+            margin-top: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Digital Watermarking System</h1>
+    
+    <div class="container">
+        <!-- Embed Section -->
+        <div class="section">
+            <h2>Embed Watermark</h2>
+            <form id="embedForm" onsubmit="embedWatermark(event)">
+                <div class="form-group">
+                    <label for="coverImage">Cover Image:</label>
+                    <input type="file" id="coverImage" name="cover" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="watermarkImage">Watermark Image:</label>
+                    <input type="file" id="watermarkImage" name="watermark" accept="image/*" required>
+                </div>
+                <button type="submit" class="btn" id="embedBtn">Embed Watermark</button>
+                <div id="embedError"></div>
+            </form>
+            
+            <div class="result-container" id="embedResult">
+                <h3>Result</h3>
+                <img id="watermarkedImage" class="result-image" alt="Watermarked image">
+                <div id="alphaValue"></div>
+                <button class="btn" onclick="downloadImage('watermarkedImage', 'watermarked_image.png')">Download</button>
+            </div>
+        </div>
+
+        <!-- Extract Section -->
+        <div class="section">
+            <h2>Extract Watermark</h2>
+            <form id="extractForm" onsubmit="extractWatermark(event)">
+                <div class="form-group">
+                    <label for="watermarkedImageInput">Watermarked Image:</label>
+                    <input type="file" id="watermarkedImageInput" name="watermarked" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="originalImageInput">Original Cover Image:</label>
+                    <input type="file" id="originalImageInput" name="original" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="alphaInput">Alpha Value:</label>
+                    <input type="number" id="alphaInput" name="alpha" step="0.01" min="0.01" max="1.0" value="0.1" required>
+                </div>
+                <button type="submit" class="btn" id="extractBtn">Extract Watermark</button>
+                <div id="extractError"></div>
+            </form>
+            
+            <div class="result-container" id="extractResult">
+                <h3>Result</h3>
+                <img id="extractedImage" class="result-image" alt="Extracted watermark">
+                <button class="btn" onclick="downloadImage('extractedImage', 'extracted_watermark.png')">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function embedWatermark(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const submitButton = document.getElementById('embedBtn');
+            const errorDiv = document.getElementById('embedError');
+            const resultDiv = document.getElementById('embedResult');
+            
+            errorDiv.textContent = '';
+            resultDiv.style.display = 'none';
+            submitButton.disabled = true;
+            
+            try {
+                const response = await fetch('/embed', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Error processing image');
+                }
+                
+                if (data.success && data.image) {
+                    document.getElementById('watermarkedImage').src = data.image;
+                    document.getElementById('alphaValue').textContent = data.alpha ? 
+                        `Alpha: ${data.alpha.toFixed(4)}` : '';
+                    resultDiv.style.display = 'block';
+                    document.getElementById('alphaInput').value = data.alpha || 0.1;
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message || 'Error processing image';
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+
+        async function extractWatermark(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            const submitButton = document.getElementById('extractBtn');
+            const errorDiv = document.getElementById('extractError');
+            const resultDiv = document.getElementById('extractResult');
+            
+            errorDiv.textContent = '';
+            resultDiv.style.display = 'none';
+            submitButton.disabled = true;
+            
+            try {
+                const response = await fetch('/extract', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Error extracting watermark');
+                }
+                
+                if (data.success && data.image) {
+                    document.getElementById('extractedImage').src = data.image;
+                    resultDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message || 'Error extracting watermark';
+            } finally {
+                submitButton.disabled = false;
+            }
+        }
+
+        function downloadImage(imageId, filename) {
+            const img = document.getElementById(imageId);
+            if (img && img.src) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = filename;
+                link.click();
+            }
+        }
+    </script>
+</body>
+</html>
