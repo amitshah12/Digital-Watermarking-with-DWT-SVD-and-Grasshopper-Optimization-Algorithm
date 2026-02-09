@@ -53,7 +53,7 @@ A **Flask-based web application** allows users to embed, extract, and evaluate w
 ## System Architecture
 
 <p align="center">
-  <img src="Project_Screenshot/block_diagram.png" width="600">
+  <img src="Project_Screenshot/block_diagram.png" width="400">
 </p>
 
 ---
@@ -76,9 +76,11 @@ Users can:
 
 ## Results & Performance
 
-![alt text](/Project_Screenshot/Result_view.png)
+<p align="center">
+  <img src="Project_Screenshot/Result_view.png" width="320">
+  <img src="Project_Screenshot/metric.png" width="320">
+</p>
 
-![alt text](/Project_Screenshot/metric.png)
 
 ### Quantitative Results
 
