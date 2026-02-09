@@ -116,52 +116,95 @@ Users can:
 ## Project Structure
 
 ```
-backend/
- ├── algorithms/
- │    ├── dwt_transform.py
- │    ├── svd_transform.py
- │    ├── goa_optimizer.py
- │    ├── watermark_embedding.py
- │    └── watermark_extraction.py
- ├── utils/
- │    └── metrics.py
- ├── routes/
- │    └── watermark_routes.py
- └── app.py
-templates/
-static/
-data/
-requirements.txt
-README.md
+Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm/
+│
+├── backend/
+│   ├── algorithms/
+│   │   ├── dwt_transform.py
+│   │   ├── svd_transform.py
+│   │   ├── goa_optimizer.py
+│   │   ├── watermark_embedding.py
+│   │   └── watermark_extraction.py
+│   │
+│   ├── utils/
+│   │   └── metrics.py
+│   │
+│   ├── routes/
+│   │   └── watermark_routes.py
+│   │
+│   └── app.py
+│
+├── templates/
+├── static/
+├── data/
+│   └── sample_images/
+│
+├── requirements.txt
+├── setup.py
+├── README.md
+└── .gitignore
 ```
 
 ---
 
 ## How to Run
 
-### 1. Clone Repository
+---
 
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm.git
 cd Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm
 ```
 
-### 2. Install Dependencies
+---
 
+### 2. Create and Activate a Virtual Environment
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate (Windows)
+venv\Scripts\activate
+
+# Activate (Linux/Mac)
+source venv/bin/activate
+```
+
+---
+
+### 3. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run Application
+---
 
+### 4. Run the Flask Application
+Inside the **backend/** folder, the entry point is `app.py`.  
 ```bash
+cd backend
 python app.py
 ```
 
-### 4. Open in Browser
+This will start the Flask server (by default on `http://127.0.0.1:5000/`).
 
+---
+
+### 5. Access the Web Interface
+Open your browser and go to:
 ```
 http://127.0.0.1:5000/
+```
+Here you can upload images, embed watermarks, and test extraction.
+
+---
+
+### 6. (Optional) Run Algorithm Scripts Directly
+If you want to test the watermarking pipeline without the web interface:
+```bash
+python algorithms/watermark_embedding.py
+python algorithms/watermark_extraction.py
 ```
 
 ---
