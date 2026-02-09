@@ -51,15 +51,19 @@ A **Flask-based web application** allows users to embed, extract, and evaluate w
 ---
 
 ## System Architecture
-![alt text](/Project_Screenshot/block_diagram.png)
+
+<p align="center">
+  <img src="Project_Screenshot/block_diagram.png" width="600">
+</p>
 
 ---
 
 ## Web Application Interface
 
-![alt text](/Project_Screenshot/UI.jpeg)
-
-![alt text](/Project_Screenshot/UI-in_out.jpeg)
+<p align="center">
+  <img src="Project_Screenshot/UI.jpeg" width="320">
+  <img src="Project_Screenshot/UI-in_out.jpeg" width="320">
+</p>
 
 Users can:
 
