@@ -603,20 +603,15 @@ git push origin feature-name
 
 **Amit Shah**
 
-B.Tech Computer Science — Final Year
-
 GitHub:
 [https://github.com/amitshah12](https://github.com/amitshah12)
 
 Project Repository:
 [https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm](https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm)
 
+Live Demo:
+[https://digital-watermarking-goa.onrender.com/](https://digital-watermarking-goa.onrender.com/)
+
 ---
-
-# ⭐ Support
-
-If you found this project useful, consider giving the repository a **star ⭐**.
-````
-```md
-🚀 **Live Application: [https://digital-watermarking-goa.onrender.com/](https://digital-watermarking-goa.onrender.com/)
+⭐ If you find the project interesting, consider giving the repository a star.
 ````
