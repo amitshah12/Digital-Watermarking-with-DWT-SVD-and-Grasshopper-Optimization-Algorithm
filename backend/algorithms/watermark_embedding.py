@@ -81,7 +81,6 @@ class WatermarkEmbedder:
                 )
 
             # Estimate modification caused by alpha.
-            #
             # This is much cheaper than performing:
             # SVD reconstruction -> inverse DWT -> PSNR -> SSIM
             modified_s = self.svd.modify_singular_values(
@@ -265,9 +264,6 @@ class WatermarkEmbedder:
 
             # --------------------------------------------------
             # 7. GOA optimization
-            #
-            # 8 grasshoppers × 10 iterations = approximately
-            # 80 lightweight fitness evaluations.
             # --------------------------------------------------
 
             try:
@@ -294,6 +290,17 @@ class WatermarkEmbedder:
 
                 optimal_alpha = 0.05
 
+            # --------------------------------------------------
+            # IMPORTANT:
+            # Limit alpha and round it to 2 decimal places.
+            #
+            # Example:
+            # 0.030076729226774995 -> 0.03
+            #
+            # The rounded value is used for BOTH embedding
+            # and extraction, ensuring consistency.
+            # --------------------------------------------------
+
             # Keep alpha within valid range
             optimal_alpha = float(
                 np.clip(
@@ -303,8 +310,20 @@ class WatermarkEmbedder:
                 )
             )
 
+            # Round alpha to 2 decimal places so the exact same
+            # value can be used during extraction.
+            optimal_alpha = round(optimal_alpha, 2)
+
+            # Ensure rounding does not produce 0.00
+            optimal_alpha = max(0.01, optimal_alpha)
+
+            # Prevent alpha becoming 0.00 after rounding
+            if optimal_alpha < 0.01:
+                optimal_alpha = 0.01
+
             self.logger.info(
-                f"Optimal alpha found: {optimal_alpha}"
+                f"Final optimized alpha after rounding: "
+                f"{optimal_alpha:.2f}"
             )
 
             # --------------------------------------------------
@@ -386,8 +405,6 @@ class WatermarkEmbedder:
 
             # --------------------------------------------------
             # 12. Calculate final metrics
-            #
-            # Metrics are calculated only once, after optimization.
             # --------------------------------------------------
 
             final_metrics = (
@@ -399,7 +416,7 @@ class WatermarkEmbedder:
 
             self.logger.info(
                 f"Embedding completed successfully. "
-                f"Alpha: {optimal_alpha}, "
+                f"Alpha: {optimal_alpha:.2f}, "
                 f"Metrics: {final_metrics}"
             )
 

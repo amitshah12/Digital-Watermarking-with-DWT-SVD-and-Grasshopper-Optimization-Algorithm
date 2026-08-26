@@ -11,4 +11,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD gunicorn --bind 0.0.0.0:$PORT --timeout 180 --workers 1 "backend.app:create_app()"
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "--workers", "1", "--timeout", "300", "backend.app:app"]
