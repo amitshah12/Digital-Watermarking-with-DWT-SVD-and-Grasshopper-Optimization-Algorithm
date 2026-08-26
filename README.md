@@ -1,90 +1,182 @@
-# Digital Watermarking using DWT–SVD with Grasshopper Optimization (GOA)
+````md
+# Digital Watermarking using DWT–SVD and Grasshopper Optimization Algorithm
 
-A robust and imperceptible **digital image watermarking system** that combines **Discrete Wavelet Transform (DWT)**, **Singular Value Decomposition (SVD)**, and the **Grasshopper Optimization Algorithm (GOA)** to automatically optimize embedding strength and improve watermark quality.
+[![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.3.3-black.svg)](https://flask.palletsprojects.com/)
+[![OpenCV](https://img.shields.io/badge/OpenCV-4.8.1-green.svg)](https://opencv.org/)
 
----
+A web-based **digital image watermarking system** that combines **Discrete Wavelet Transform (DWT)**, **Singular Value Decomposition (SVD)**, and the **Grasshopper Optimization Algorithm (GOA)** to embed and extract digital watermarks while maintaining high image quality.
 
-## Overview
-
-Digital media is highly vulnerable to unauthorized copying and tampering. Traditional watermarking methods often use fixed embedding parameters, which can compromise either **image quality** or **robustness**.
-
-This project proposes a **hybrid DWT–SVD watermarking framework** in which the embedding strength (α) is **adaptively optimized using GOA** to achieve:
-
-* High imperceptibility
-* Strong robustness against common image processing attacks
-* Reliable watermark extraction
-
-A **Flask-based web application** allows users to embed, extract, and evaluate digital watermarks through an interactive interface.
+The system uses GOA to optimize the watermark embedding strength automatically and provides an interactive Flask-based web interface for watermark embedding, extraction, and performance evaluation.
 
 ---
 
-## Key Features
+## 🌐 Live Demo
 
-* Hybrid **DWT–SVD watermarking**
-* **GOA-based adaptive optimization** of embedding strength
-* Embedding in the **HL sub-band** for a quality–robustness balance
-* Performance evaluation using:
+🚀 Live Application: [https://digital-watermarking-goa.onrender.com/](https://digital-watermarking-goa.onrender.com/)
 
-  * PSNR
-  * SSIM
-  * MSE
-  * NCC
-* Robustness evaluation against:
+The application is deployed using **Render** and can be accessed directly through the link above.
+---
 
-  * JPEG compression
-  * Gaussian noise
-  * Salt & Pepper noise
-  * Blurring
-* Interactive **Flask web interface**
+## 📂 Project Repository
+
+🔗 **GitHub Repository:**  
+[Digital Watermarking with DWT–SVD and Grasshopper Optimization Algorithm](https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm)
 
 ---
 
-## Methodology
+# 📌 Overview
 
-The watermarking process follows these main steps:
+Digital images are highly vulnerable to unauthorized copying, redistribution, and tampering. Digital watermarking provides a method for embedding ownership or authentication information directly into an image.
 
-1. Apply **DWT** to decompose the cover image.
-2. Perform **SVD** on the selected frequency sub-band (HL).
-3. Apply **SVD** to the watermark image.
-4. Use **GOA** to determine the optimal embedding strength (α).
-5. Modify the singular values and reconstruct the watermarked image.
-6. Extract the watermark using the corresponding inverse operations.
+Traditional watermarking approaches often rely on a fixed embedding strength. Choosing a value that is too high can visibly distort the image, while choosing a value that is too low may make the watermark difficult to recover.
+
+This project implements a hybrid **DWT–SVD–GOA watermarking framework**, where the embedding strength **α (alpha)** is optimized automatically.
+
+The main objectives are:
+
+- High imperceptibility of the watermark
+- Reliable watermark extraction
+- Adaptive embedding strength optimization
+- Robustness against common image processing operations
+- A simple web-based interface for practical use
 
 ---
 
-## System Architecture
+# ✨ Key Features
+
+- Hybrid **DWT–SVD watermarking**
+- **Grasshopper Optimization Algorithm (GOA)** for adaptive alpha optimization
+- Automatic embedding strength selection
+- Watermark embedding and extraction
+- Downloadable watermarked image
+- Downloadable extracted watermark
+- Image quality evaluation using:
+  - PSNR
+  - SSIM
+  - MSE
+  - NCC
+- Robustness evaluation against common image processing attacks:
+  - JPEG compression
+  - Gaussian noise
+  - Salt & Pepper noise
+  - Blurring
+- Interactive **Flask web interface**
+- Cloud deployment support using **Render**
+
+---
+
+# 🧠 Methodology
+
+The watermarking process follows the steps below.
+
+### 1. Image Preprocessing
+
+The cover image and watermark image are validated and converted into grayscale format when necessary.
+
+### 2. Discrete Wavelet Transform (DWT)
+
+The cover image is decomposed into frequency sub-bands using DWT.
+
+This separates the image into approximation and detail components.
+
+### 3. Singular Value Decomposition (SVD)
+
+SVD is applied to the selected DWT component.
+
+The singular values are modified to embed the watermark information.
+
+### 4. Grasshopper Optimization Algorithm (GOA)
+
+GOA searches for a suitable embedding strength **α**.
+
+The optimization balances:
+
+- Watermark embedding strength
+- Image quality
+- Imperceptibility
+
+### 5. Watermark Embedding
+
+The optimized alpha value is used to modify the singular values.
+
+The modified component is reconstructed using inverse SVD and inverse DWT to generate the final watermarked image.
+
+### 6. Watermark Extraction
+
+The watermark is extracted using the original cover image, watermarked image, and embedding strength.
+
+---
+
+# 🏗️ System Architecture
 
 <p align="center">
-  <img src="Project_Screenshot/block_diagram.png" width="400">
+  <img src="Project_Screenshot/block_diagram.png" width="500" alt="System Architecture">
 </p>
 
+The overall pipeline can be represented as:
+
+```text
+Cover Image
+     │
+     ▼
+   DWT
+     │
+     ▼
+Selected Frequency Component
+     │
+     ▼
+   SVD
+     │
+     ├─────────────── Watermark
+     │
+     ▼
+GOA Optimizes Alpha (α)
+     │
+     ▼
+Modify Singular Values
+     │
+     ▼
+Inverse SVD
+     │
+     ▼
+Inverse DWT
+     │
+     ▼
+Watermarked Image
+````
+
 ---
 
-## Web Application Interface
+# 🖥️ Web Application Interface
 
 <p align="center">
-  <img src="Project_Screenshot/UI.jpeg" width="320">
-  <img src="Project_Screenshot/UI-in_out.jpeg" width="320">
+  <img src="Project_Screenshot/UI.jpeg" width="380" alt="Watermark Embedding Interface">
+  <img src="Project_Screenshot/UI-in_out.jpeg" width="380" alt="Watermark Extraction Interface">
 </p>
 
 The web application allows users to:
 
-* Upload a cover image and watermark image
-* Automatically optimize α using GOA
-* Generate and download the watermarked image
+* Upload a cover image
+* Upload a watermark image
+* Automatically optimize the embedding strength using GOA
+* Generate a watermarked image
+* View the optimized alpha value
+* Download the watermarked image
+* Upload the original and watermarked images
 * Extract the embedded watermark
-* Evaluate watermarking performance using quality metrics
+* Download the extracted watermark
 
 ---
 
-## Results & Performance
+# 📊 Results and Performance
 
 <p align="center">
-  <img src="Project_Screenshot/Result_view.png" width="320">
-  <img src="Project_Screenshot/metric.png" width="320">
+  <img src="Project_Screenshot/Result_view.png" width="380" alt="Watermarking Result">
+  <img src="Project_Screenshot/metric.png" width="380" alt="Performance Metrics">
 </p>
 
-### Quantitative Results
+## Quantitative Results
 
 The following results were obtained from a representative experiment using the selected cover image, watermark, and optimized embedding strength.
 
@@ -95,54 +187,66 @@ The following results were obtained from a representative experiment using the s
 | NCC       |     **0.99** |
 | Optimal α |     **0.01** |
 
-### Interpretation
+## Interpretation
 
-* **PSNR > 50 dB** indicates high imperceptibility for the tested image.
-* **SSIM close to 1** indicates high structural similarity between the original and watermarked images.
-* **NCC close to 1** indicates accurate watermark recovery.
+* **PSNR > 50 dB** indicates that the watermarked image maintains high visual similarity with the original image.
+* **SSIM close to 1** indicates strong structural similarity.
+* **NCC close to 1** indicates a high correlation between the original watermark and extracted watermark.
+* The optimized alpha value helps balance watermark strength and image quality.
 
----
-
-## Tech Stack
-
-* **Language:** Python
-* **Framework:** Flask
-* **Libraries:**
-
-  * OpenCV
-  * NumPy
-  * PyWavelets
-  * SciPy
-  * scikit-image
+> Results may vary depending on the cover image, watermark image, and optimization process.
 
 ---
 
-## Tested Environment
+# 🛠️ Tech Stack
 
-This project has been tested with the following environment:
+## Programming Language
 
-| Component    | Version          |
-| ------------ | ---------------- |
-| Python       | 3.12.10 (64-bit) |
-| Flask        | 2.3.3            |
-| NumPy        | 1.26.4           |
-| OpenCV       | 4.8.1.78         |
-| PyWavelets   | 1.9.0            |
-| scikit-image | 0.22.0           |
-| Werkzeug     | 2.3.7            |
+* Python
 
-> **Recommended Python version:** Python 3.12 (64-bit).
->
-> Python 3.14 may not be compatible with some of the pinned scientific computing dependencies used in this project.
+## Backend Framework
+
+* Flask
+
+## Libraries
+
+* NumPy
+* OpenCV
+* PyWavelets
+* SciPy
+* scikit-image
+
+## Deployment
+
+* Render
 
 ---
 
-## Project Structure
+# 🧪 Tested Environment
+
+| Component    | Version  |
+| ------------ | -------- |
+| Python       | 3.12.10  |
+| Flask        | 2.3.3    |
+| NumPy        | 1.26.4   |
+| OpenCV       | 4.8.1.78 |
+| PyWavelets   | 1.9.0    |
+| scikit-image | 0.22.0   |
+| Werkzeug     | 2.3.7    |
+
+> **Recommended Python version:** Python 3.12 (64-bit)
+
+Some scientific computing dependencies may not be compatible with newer Python versions depending on the versions specified in `requirements.txt`.
+
+---
+
+# 📁 Project Structure
 
 ```text
 Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm/
 │
 ├── backend/
+│   │
 │   ├── algorithms/
 │   │   ├── dwt_transform.py
 │   │   ├── svd_transform.py
@@ -159,7 +263,10 @@ Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm/
 │   └── app.py
 │
 ├── templates/
+│   └── index.html
+│
 ├── static/
+│
 ├── data/
 │   └── sample_images/
 │
@@ -178,12 +285,17 @@ Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm/
 
 ---
 
-# How to Run
+# 🚀 Getting Started
 
 ## 1. Clone the Repository
 
 ```bash
 git clone https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm.git
+```
+
+Move into the project directory:
+
+```bash
 cd Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm
 ```
 
@@ -191,11 +303,11 @@ cd Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm
 
 ## 2. Create and Activate a Virtual Environment
 
-Make sure you have **Python 3.12 (64-bit)** installed.
+Make sure Python 3.12 is installed.
 
 ### Windows
 
-Create the virtual environment using Python 3.12:
+Create a virtual environment:
 
 ```bash
 py -3.12 -m venv venv
@@ -219,7 +331,7 @@ Expected output:
 Python 3.12.x
 ```
 
-You can also verify that you are using a 64-bit Python installation:
+You can also verify that Python is running in 64-bit mode:
 
 ```bash
 python -c "import platform; print(platform.architecture())"
@@ -233,10 +345,15 @@ Expected output:
 
 ### Linux/macOS
 
-Create and activate the virtual environment:
+Create the environment:
 
 ```bash
 python3.12 -m venv venv
+```
+
+Activate it:
+
+```bash
 source venv/bin/activate
 ```
 
@@ -244,7 +361,7 @@ source venv/bin/activate
 
 ## 3. Upgrade pip
 
-Before installing the project dependencies, upgrade pip and the required packaging tools:
+Before installing the dependencies:
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
@@ -254,13 +371,13 @@ python -m pip install --upgrade pip setuptools wheel
 
 ## 4. Install Dependencies
 
-Install all required dependencies:
+Install all required packages:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-After successful installation, you can verify the installed packages:
+Optional verification:
 
 ```bash
 pip list
@@ -268,82 +385,111 @@ pip list
 
 ---
 
-## 5. Run the Flask Application
+## 5. Run the Application Locally
 
-Inside the **backend/** folder, the entry point is `app.py`.
+The Flask application entry point is located inside the `backend` directory.
 
 ```bash
 cd backend
+```
+
+Run:
+
+```bash
 python app.py
 ```
 
-This will start the Flask development server, typically at:
+The application will typically start at:
 
 ```text
 http://127.0.0.1:5000/
 ```
 
----
-
-## 6. Access the Web Interface
-
-Open your browser and navigate to:
-
-```text
-http://127.0.0.1:5000/
-```
-
-You can then:
-
-* Upload a cover image
-* Upload a watermark image
-* Embed the watermark
-* Automatically optimize the embedding strength using GOA
-* Download the watermarked image
-* Extract the watermark
-* Evaluate the watermarking performance
+Open the address in your browser.
 
 ---
 
-## 7. (Optional) Run Algorithm Scripts Directly
+# 🌐 Using the Application
 
-If you want to experiment with the watermarking pipeline without running the web interface:
+## Embed a Watermark
 
-```bash
-python algorithms/watermark_embedding.py
-python algorithms/watermark_extraction.py
-```
+1. Upload a cover image.
+2. Upload a watermark image.
+3. Click **Embed Watermark**.
+4. The system automatically runs the optimization process.
+5. A watermarked image is generated.
+6. The alpha value used for embedding is displayed.
+7. Download the watermarked image if required.
+
+## Extract a Watermark
+
+1. Upload the watermarked image.
+2. Upload the original cover image.
+3. Enter or use the corresponding alpha value.
+4. Click **Extract Watermark**.
+5. The extracted watermark will be displayed.
+6. Download the extracted watermark if required.
 
 ---
 
-# Troubleshooting
+# 📈 Performance Metrics
+
+The project uses the following metrics to evaluate watermarking quality.
+
+## PSNR — Peak Signal-to-Noise Ratio
+
+Measures the similarity between the original and watermarked images.
+
+Higher values generally indicate lower visible distortion.
+
+## SSIM — Structural Similarity Index
+
+Measures structural similarity between images.
+
+A value close to `1` indicates high similarity.
+
+## MSE — Mean Squared Error
+
+Measures the average squared difference between pixel values.
+
+Lower values indicate lower distortion.
+
+## NCC — Normalized Cross-Correlation
+
+Measures similarity between the original watermark and extracted watermark.
+
+A value close to `1` indicates strong watermark recovery.
+
+---
+
+# ⚠️ Troubleshooting
 
 ## NumPy or PyWavelets Installation Fails
 
-If pip attempts to build NumPy or PyWavelets from source and you encounter compiler-related errors, first check your Python version:
+First check your Python version:
 
 ```bash
 python --version
 ```
 
-Also check your Python architecture:
+Check the Python architecture:
 
 ```bash
 python -c "import platform; print(platform.architecture())"
 ```
 
-This project has been tested with:
+Recommended environment:
 
 ```text
 Python 3.12.x
-('64bit', 'WindowsPE')
+64-bit
 ```
 
-If you previously created the virtual environment using another Python version, delete and recreate it.
+If you previously created a virtual environment using another Python version, recreate it.
 
 ### Windows
 
-First deactivate the existing environment:
+Deactivate the existing environment:
 
 ```bash
 deactivate
@@ -355,7 +501,7 @@ Delete the existing virtual environment:
 rmdir /s /q venv
 ```
 
-Create a new environment using Python 3.12:
+Create a new environment:
 
 ```bash
 py -3.12 -m venv venv
@@ -367,46 +513,111 @@ Activate it:
 venv\Scripts\activate
 ```
 
-Then reinstall the dependencies:
+Upgrade pip:
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
+```
+
+Install dependencies again:
+
+```bash
 pip install -r requirements.txt
 ```
 
 ---
 
-# Key Contributions
+# 🧩 Key Contributions
 
-* Designed a **hybrid DWT–SVD–GOA watermarking system**
-* Implemented **metaheuristic optimization** for adaptive watermark embedding
-* Developed a complete **Flask-based web application**
-* Achieved high image quality in representative experiments, including **PSNR of 51.13 dB** and **SSIM of 0.9968**
-* Evaluated robustness against multiple common image distortions
-
----
-
-# Limitations
-
-* Higher computation time due to GOA optimization
-* Semi-blind extraction requires knowledge of the optimized embedding strength (α)
-* Limited resistance to geometric attacks such as rotation and scaling
+* Designed a hybrid **DWT–SVD–GOA digital watermarking system**
+* Implemented adaptive watermark embedding strength optimization
+* Reduced optimization overhead for improved web deployment performance
+* Developed a complete Flask-based web application
+* Implemented watermark embedding and extraction functionality
+* Added image quality evaluation using PSNR, SSIM, MSE, and NCC
+* Achieved high image quality in representative experiments
+* Deployed the application for online access
 
 ---
 
-# Future Work
+# ⚠️ Limitations
 
-* Deep learning–based watermarking
-* Video and audio watermarking
+* GOA-based optimization can still increase processing time for large images.
+* Watermark extraction depends on the corresponding embedding strength alpha.
+* The current approach has limited resistance to some geometric attacks such as:
+
+  * Rotation
+  * Scaling
+  * Cropping
+* Results can vary depending on the selected cover and watermark images.
+
+---
+
+# 🔮 Future Improvements
+
+Possible future enhancements include:
+
+* Deep learning-based watermarking
+* Blind watermark extraction
+* Video watermarking
+* Audio watermarking
 * Improved resistance to geometric attacks
-* GPU acceleration for faster optimization
+* GPU acceleration
+* Adaptive multi-objective optimization
 * Blockchain-based ownership verification
+* User authentication and watermark history
+* REST API support for external applications
 
 ---
 
-# Author
+# 🤝 Contributing
+
+Contributions, suggestions, and improvements are welcome.
+
+To contribute:
+
+1. Fork the repository.
+2. Create a new branch:
+
+```bash
+git checkout -b feature-name
+```
+
+3. Make your changes.
+4. Commit the changes:
+
+```bash
+git commit -m "Add new feature"
+```
+
+5. Push the branch:
+
+```bash
+git push origin feature-name
+```
+
+6. Create a Pull Request.
+
+---
+
+# 👨‍💻 Author
 
 **Amit Shah**
-B.Tech Computer Science (Final Year)
 
-GitHub: https://github.com/amitshah12
+B.Tech Computer Science — Final Year
+
+GitHub:
+[https://github.com/amitshah12](https://github.com/amitshah12)
+
+Project Repository:
+[https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm](https://github.com/amitshah12/Digital-Watermarking-with-DWT-SVD-and-Grasshopper-Optimization-Algorithm)
+
+---
+
+# ⭐ Support
+
+If you found this project useful, consider giving the repository a **star ⭐**.
+````
+```md
+🚀 **Live Application: [https://digital-watermarking-goa.onrender.com/](https://digital-watermarking-goa.onrender.com/)
+````
